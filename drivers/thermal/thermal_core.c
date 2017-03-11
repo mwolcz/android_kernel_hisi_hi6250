@@ -826,7 +826,7 @@ trip_point_temp_show(struct device *dev, struct device_attribute *attr,
 	if (!sscanf(attr->attr.name, "trip_point_%d_temp", &trip))
 		return -EINVAL;
 
-	ret = tz->ops->get_trip_temp(tz, trip, &temperature);
+	ret = tz->ops->get_crit_temp(tz, &temperature);
 
 	if (ret)
 		return ret;

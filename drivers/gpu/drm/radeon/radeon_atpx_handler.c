@@ -11,6 +11,7 @@
 #include <acpi/acpi.h>
 #include <acpi/acpi_bus.h>
 #include <linux/pci.h>
+#include <linux/delay.h>
 
 #define ATPX_VERSION 0
 #define ATPX_GPU_PWR 2
