@@ -183,7 +183,7 @@ obj-y += hisi/
 obj-$(CONFIG_GATOR)		  += gator/
 
 ifeq ($(CONFIG_UTTEST), y) 
-LINUXINCLUDE := -I$(BALONG_TOPDIR)/build/tools/ut_tool/linux_stub/arch/$(SRCARCH)/include $(LINUXINCLUDE)
+LINUXINCLUDE += -I$(BALONG_TOPDIR)/build/tools/ut_tool/linux_stub/arch/$(SRCARCH)/include
 endif 
 
 ifneq ($(strip $(CFG_HISI_OPENSOURCE)), true)
