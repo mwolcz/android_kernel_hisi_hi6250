@@ -1168,7 +1168,7 @@ again:
 			tlb_remove_tlb_entry(tlb, pte, addr);
 			if (unlikely(!page)) {
 				uksm_unmap_zero_page(ptent);
-				continue;
+ 				continue;
 			}
 			if (unlikely(details) && details->nonlinear_vma
 			    && linear_page_index(details->nonlinear_vma,
@@ -2636,7 +2636,7 @@ static inline void cow_user_page(struct page *dst, struct page *src, unsigned lo
 		kunmap_atomic(kaddr);
 		flush_dcache_page(dst);
 	} else {
-		copy_user_highpage(dst, src, va, vma);
+ 		copy_user_highpage(dst, src, va, vma);
 		uksm_cow_page(vma, src);
 	}
 }

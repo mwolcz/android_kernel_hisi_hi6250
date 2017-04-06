@@ -2752,7 +2752,7 @@ void exit_mmap(struct mm_struct *mm)
 
 	/* mm's last user has gone, and its about to be pulled down */
 	mmu_notifier_release(mm);
-
+	
 	/*
 	 * Taking write lock on mmap_sem does not harm others,
 	 * but it's crucial for uksm to avoid races.
@@ -3013,6 +3013,7 @@ int install_special_mapping(struct mm_struct *mm,
 	ret = insert_vm_struct(mm, vma);
 	if (ret)
 		goto out;
+
 	mm->total_vm += len >> PAGE_SHIFT;
 
 	perf_event_mmap(vma);

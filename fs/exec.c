@@ -1147,7 +1147,6 @@ void setup_new_exec(struct linux_binprm * bprm)
 	   group */
 
 	current->self_exec_id++;
-
 	flush_signal_handlers(current, 0);
 	do_close_on_exec(current->files);
 }
