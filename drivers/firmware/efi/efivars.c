@@ -220,7 +220,7 @@ sanity_check(struct efi_variable *var, efi_char16_t *name, efi_guid_t vendor,
 	}
 
 	if ((attributes & ~EFI_VARIABLE_MASK) != 0 ||
-	    efivar_validate(name, data, size) == false) {
+	    efivar_validate(vendor, name, data, size) == false) {
 		printk(KERN_ERR "efivars: Malformed variable content\n");
 		return -EINVAL;
 	}
@@ -422,6 +422,7 @@ static ssize_t efivar_create(struct file *filp, struct kobject *kobj,
 	unsigned long size;
 	u32 attributes;
 	u8 *data;
+	efi_guid_t vendor;
 	int err;
 
 	if (!capable(CAP_SYS_ADMIN))
@@ -432,6 +433,7 @@ static ssize_t efivar_create(struct file *filp, struct kobject *kobj,
 			return -EINVAL;
 
 		attributes = compat->Attributes;
+		vendor = compat->VendorGuid;
 		name = compat->VariableName;
 		size = compat->DataSize;
 		data = compat->Data;
@@ -440,13 +442,14 @@ static ssize_t efivar_create(struct file *filp, struct kobject *kobj,
 			return -EINVAL;
 
 		attributes = new_var->Attributes;
+		vendor = new_var->VendorGuid;
 		name = new_var->VariableName;
 		size = new_var->DataSize;
 		data = new_var->Data;
 	}
 
 	if ((attributes & ~EFI_VARIABLE_MASK) != 0 ||
-	    efivar_validate(name, data, size) == false) {
+	    efivar_validate(vendor, name, data, size) == false) {
 		printk(KERN_ERR "efivars: Malformed variable content\n");
 		return -EINVAL;
 	}
