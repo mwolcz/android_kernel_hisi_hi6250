@@ -1220,7 +1220,7 @@ oal_uint32  oal_mem_free_enhanced(
 }
 
 
-OAL_INLINE oal_uint32  oal_mem_free_enhanced_array(
+OAL_STATIC oal_uint32  oal_mem_free_enhanced_array(
                 oal_uint32      ul_file_id,
                 oal_uint32      ul_line_num,
                 oal_void       *p_data,
