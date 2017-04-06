@@ -26,6 +26,7 @@
  * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  */
+#include <linux/lcd_notify.h>
 
 #include "hisi_fb.h"
 #include <linux/huawei/hisi_adc.h>
@@ -656,13 +657,14 @@ static int hw_lcd_on(struct platform_device* pdev)
 	if (pinfo->lcd_init_step == LCD_INIT_POWER_ON) {
 		g_debug_enable = BACKLIGHT_PRINT_TIMES;
 		LOG_JANK_D(JLID_KERNEL_LCD_POWER_ON, "%s", "JL_KERNEL_LCD_POWER_ON");
+		lcd_notifier_call_chain(LCD_EVENT_ON_START, NULL);
 #if HW_LCD_DEBUG
-	if (is_enable_vsp_vsn_debug()){
-		lcd_debug_set_vsp_vsn(hw_lcd_scharger_vcc_set_cmds, ARRAY_SIZE(hw_lcd_scharger_vcc_set_cmds));
-			/*set scharger vcc*/
-		vcc_cmds_tx(NULL, hw_lcd_scharger_vcc_set_cmds, \
-					ARRAY_SIZE(hw_lcd_scharger_vcc_set_cmds));
-	}
+		if (is_enable_vsp_vsn_debug()){
+			lcd_debug_set_vsp_vsn(hw_lcd_scharger_vcc_set_cmds, ARRAY_SIZE(hw_lcd_scharger_vcc_set_cmds));
+				/*set scharger vcc*/
+			vcc_cmds_tx(NULL, hw_lcd_scharger_vcc_set_cmds, \
+						ARRAY_SIZE(hw_lcd_scharger_vcc_set_cmds));
+		}
 #endif
 		if (false == gesture_func && !g_debug_enable_lcd_sleep_in) {
 			//lcd vcc enable
@@ -755,6 +757,7 @@ static int hw_lcd_on(struct platform_device* pdev)
 				HISI_FB_ERR("ts after resume err\n");
 		}
 #endif
+		lcd_notifier_call_chain(LCD_EVENT_ON_END, NULL);
 	} else {
 		HISI_FB_ERR("failed to init lcd!\n");
 	}
@@ -801,6 +804,7 @@ static int hw_lcd_off(struct platform_device* pdev)
 
 	if (pinfo->lcd_uninit_step == LCD_UNINIT_MIPI_HS_SEND_SEQUENCE) {
 		LOG_JANK_D(JLID_KERNEL_LCD_POWER_OFF, "%s", "JL_KERNEL_LCD_POWER_OFF");
+		lcd_notifier_call_chain(LCD_EVENT_OFF_START, NULL);
 
 		// backlight off
 		hisi_lcd_backlight_off(pdev);
@@ -876,7 +880,7 @@ static int hw_lcd_off(struct platform_device* pdev)
 			ts_thread_stop_notify();
 		}
 #endif
-
+		lcd_notifier_call_chain(LCD_EVENT_OFF_END, NULL);
 	} else {
 		HISI_FB_ERR("failed to uninit lcd!\n");
 	}
