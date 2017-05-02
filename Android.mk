@@ -4,6 +4,8 @@ KERNEL_OUT := vendor/hisi/build/delivery/$(OBB_PRODUCT_NAME)/obj/android
 KERNEL_OUT := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ
 KERNEL_CONFIG := $(KERNEL_OUT)/.config
 
+TARGET_PREBUILT_INT_KERNEL := $(KERNEL_OUT)/arch/arm64/boot/zImage-dtb
+
 COMMON_HEAD := $(shell pwd)/kernel/drivers/
 COMMON_HEAD += $(shell pwd)/kernel/mm/
 COMMON_HEAD += $(shell pwd)/kernel/include/hisi/
@@ -61,5 +63,5 @@ idl_tool_script_path := $(shell pwd)/kernel/scripts/kernel_modem_idl_tool.py
 driver_hisi_modem_out_dir := $(shell pwd)/$(KERNEL_OUT)/drivers/hisi/modem
 kernel_driver_hisi_dir := $(shell pwd)/kernel/drivers/hisi
 
-$(TARGET_PREBUILT_KERNEL): FORCE $(KERNEL_CONFIG)
-	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=$(KERNEL_ARCH_PREFIX) CROSS_COMPILE=$(CROSS_COMPILE)
+$(TARGET_PREBUILT_INT_KERNEL): $(KERNEL_OUT) $(KERNEL_CONFIG) $(KERNEL_HEADERS_INSTALL)
+	$(MAKE) -C kernel O=../$(KERNEL_OUT) ARCH=$(KERNEL_ARCH_PREFIX) CROSS_COMPILE=$(CROSS_COMPILE) zImage-dtb
