@@ -1,6 +1,5 @@
 #Android makefile to build kernel as a part of Android Build
 
-KERNEL_OUT := vendor/hisi/build/delivery/$(OBB_PRODUCT_NAME)/obj/android
 KERNEL_OUT := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ
 KERNEL_CONFIG := $(KERNEL_OUT)/.config
 
@@ -10,7 +9,7 @@ COMMON_HEAD := $(shell pwd)/kernel/drivers/
 COMMON_HEAD += $(shell pwd)/kernel/mm/
 COMMON_HEAD += $(shell pwd)/kernel/include/hisi/
 COMMON_HEAD += $(shell pwd)/external/efipartition	
-COMMON_HEAD += $(shell pwd)/vendor/hisi/ap/platform/hi6250/
+COMMON_HEAD += $(shell pwd)/drivers/vendor/hisi/ap/platform/hi6250/
 
 ifneq ($(COMMON_HEAD),)
 BALONG_INC := $(patsubst %,-I%,$(COMMON_HEAD))
