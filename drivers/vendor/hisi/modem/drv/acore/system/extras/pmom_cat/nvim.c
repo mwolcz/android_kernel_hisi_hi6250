@@ -19,8 +19,8 @@ int nvim_msg_parse(unsigned int typeid, char *in_buf, unsigned int len, char *ou
 	struct nv_icc_stru *log_msg = (struct nv_icc_stru *)in_buf;
     int temp = 0;
 
-	typeid = typeid;
-	
+	(void)typeid;
+
     /* step1: 消息类型检查 */
 	if(len != sizeof(*log_msg))
 	{
